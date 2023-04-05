@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Validation</title>
+   <style>
+    * {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+}
+
+.maincontainer {
+    border: 1px solid gray;
+    height: 130vh;
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+h1 {
+    font-size: 1.5rem;
+    margin-left: 5rem;
+    margin-top: 1rem;
+}
+
+.form {
+    width: 100%;
+    height: 90%;
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+.form div{
+    /* border: 2px solid green; */
+    height: 14%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: fle…
+   </style>
+    
+</head>
+
+<body>
+    <div class="maincontainer">
+        <h1>Validating Web Forms</h1>
+        <div class="form">
+            <div>
+                <label> First Name :</label>
+                <input onkeyup="validateform()" type="text" id="fname">
+                <p id="parafname"></p>
+            </div>
+
+            <div>
+                <label> Last Name :</label>
+                <input onkeyup="validateform()" type="text" id="lname">
+                <p id="paralname"></p>
+
+            </div>
+
+            <div>
+                <label> Email :</label>
+                <input onkeyup="validateform()" type="email" id="email">
+                <p id="paraemail"></p>
+            </div>
+
+            <div>
+                <label> Password :</label>
+                <input onkeyup="validateform()" type="password" id="pass">
+                <p id="parapass"></p>
+            </div>
+
+            <div>
+                <label> Telephone :</label>
+                <input onkeyup="validateform()" type="number" id="tele">
+                <p id="paratele"></p>
+            </div>
+
+            <div>
+                <label> Your bio :</label>
+                <input onkeyup="validateform()" type="text" id="bio">
+                <p id="parabio"></p>
+
+            </div>
+
+            <div>
+                <h1 id="emptyerror"></h1>
+                <button onclick="submitform()" type="submit">Submit</button>
+
+            </div>
+
+
+
+        </div>
+
+    </div>
+    <script>
+        const fname = document.getElementById("fname")
+const lname = document.getElementById("lname")
+const email = document.getElementById("email")
+const pass = document.getElementById("pass")
+const tele = document.getElementById("tele")
+const bio = document.getElementById("bio")
+
+const error = {
+    fname: true,
+    lname: true,
+    email: true,
+    pass: true,
+    phno: true,
+    bio: true
+}
+
+function validateform() {
+    var name = fname.value
+    var surname = lname.value
+    var mail = email.value
+    var password = pass.value
+    var mob = tele.value
+    var text = bio.value
+
+    
+
+
+    if (name.length < 3 || name.length > 16) {
+        error.fname = true
+        parafname.innerText = "First name must be alphanumeric and 3-16 Characters"
+    }
+    else {
+        error.fname = false
+        parafname.innerText = ""
+    }
+
+
+    if (surname.length < 3 || surname.length > 16) {
+        error.lname = true
+
+        paralname.innerText = "Last name must be alphanumeric and 3-16 Characters"
+
+    }
+    else {
+        error.lname = false
+        paralname.innerText = ""
+    }
+    if (mail == "" || !/^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/.test(mail)) {
+        error.email = true
+        paraemail.innerText = " Email must be  a valid address.e.g. example@example.com"
+
+    }
+    else {
+        error.email = false
+
+        paraemail.innerText = ""
+    }
+    if (password == "" || !/^[a-zA-Z0-9!@#$%^&*]{6,16}$/.test(password)) {
+        error.pass = true
+
+        parapass.innerText = "Password should contain atleast one number and one special character"
+
+    }
+    else {
+        error.pass = false
+        parapass.innerText = ""
+    }
+    if (mob == "" || !/^\d{10}$/.test(mob)) {
+        error.phno = true
+        paratele.innerText = " Please Enter  Valid Telephone Number"
+    }
+    else {
+        error.phno = false
+        paratele.innerText = ""
+    }
+    if (text == "" || !/^[a-z0-9._-\s]{8,50}$/.test(text)) {
+        error.bio = true
+        parabio.innerText = "Bio must container only lowercase letters, underscores,hyphens and be 8-50 characters"
+    }
+    else {
+        error.bio = false
+        parabio.innerText = ""
+    }
+
+
+}
+
+function submitform() {
+
+
+    const DataToSend = {
+        fname: fname.value,
+        lname: lname.value,
+        email: email.value,
+        pass: pass.value,
+        phno: tele.value,
+        bio: bio.value
+    }
+    if (error.fname === true || error.lname === true || error.email === true || error.pass === true || error.phno === true || error.bio === true) {
+        emptyerror.innerText = "Form values can't be empty"
+        emptyerror.style.color = "red"
+        emptyerror.style.margin = "1rem"
+
+        console.log("errors are there");
+    } else {
+
+        console.log("button clicked");
+        console.log("data", DataToSend);
+        emptyerror.innerText = ""
+        alert("Form Submitted")
+
+    }
+
+    fname.value = ""
+    lname.value = ""
+    email.value = ""
+    pass.value = ""
+    tele.value = ""
+    bio.value = ""
+
+
+}
+    </script>
+
+</body>
+
+</html>
